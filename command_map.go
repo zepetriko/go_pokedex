@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-func commandMap(cfg *config) error {
+func commandMap(cfg *config, args []string) error {
 	if cfg.Next == "" {
 		fmt.Println("No more locations.")
 		return nil
@@ -11,7 +11,7 @@ func commandMap(cfg *config) error {
 	return fetchAndPrintLocations(cfg, cfg.Next)
 }
 
-func commandMapBack(cfg *config) error {
+func commandMapBack(cfg *config, args []string) error {
 	if cfg.Previous == "" {
 		fmt.Println("you're on the first page")
 		return nil

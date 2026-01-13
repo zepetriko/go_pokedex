@@ -19,7 +19,6 @@ func fetchAndPrintLocations(cfg *config, url string) error {
 func fetchLocationsAreas(cfg *config, url string) ([]byte, error) {
 	// Check Cache first
 	if cachedData, ok := cfg.Cache.Get(url); ok {
-		fmt.Println("(from cache)")
 		return cachedData, nil
 	}
 	
@@ -38,7 +37,6 @@ func fetchLocationsAreas(cfg *config, url string) ([]byte, error) {
 	//Store in cache
 	cfg.Cache.Add(url, body)
 
-	fmt.Println("(from API)")
 	return body, nil
 	
 }
@@ -67,4 +65,25 @@ func decodeAndPrintLocations(cfg *config, raw []byte) error {
 	}
 
 	return nil
+}
+
+func getFromCacheOrFetch(cfg *config, url string) ([]byte, error) {
+	if data, ok := cfg.Cache.Get(url); ok {
+		return data, nil
+	}
+
+	resp, err := http.Get(url)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+
+	data, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	cfg.Cache.Add(url, data)
+
+	return data, nil
 }

@@ -15,6 +15,7 @@ func startREPL() {
 	cfg := &config{
 		Next: "https://pokeapi.co/api/v2/location-area/",
 		Cache: pokecache.NewCache(5 * time.Second),
+		Pokedex: make(map[string]pokemon),
 	}
 
 	commands := registerCommands()
@@ -33,6 +34,7 @@ func startREPL() {
 
 		words := strings.Fields(input)
 		commandName := strings.ToLower(words[0])
+		args := words[1:]
 
 		command, exists := commands[commandName]
 		if !exists {
@@ -40,7 +42,7 @@ func startREPL() {
 			continue
 		}
 
-		if err := command.callback(cfg); err != nil {
+		if err := command.callback(cfg, args); err != nil {
 			fmt.Println(err)
 		}
 

@@ -2,8 +2,8 @@ package main
 
 import "fmt"
 
-func commandHelp(commands map[string]cliCommand) func(cfg *config) error {
-	return func(cfg *config) error {
+func commandHelp(commands map[string]cliCommand) func(cfg *config, args []string) error {
+	return func(cfg *config, args []string) error {
 		fmt.Println("Welcome to the Pokedex!")
 		fmt.Println("Usage:")
 		fmt.Println()

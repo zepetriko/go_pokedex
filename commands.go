@@ -26,5 +26,17 @@ func registerCommands() map[string]cliCommand {
 			description: 	"Displays the previous 20 location areas",
 			callback: 		commandMapBack,
 	}
+
+	commands["explore"] = cliCommand {
+			name:			"explore",
+			description: 	"Explores the pokemons that can be found in the location area",
+			callback: 		commandExplore,
+	}
+
+	commands["catch"] = cliCommand {
+			name:			"catch",
+			description: 	"Catch a Pokemon",
+			callback: 		commandCatch,
+	}
 	return commands
 }
